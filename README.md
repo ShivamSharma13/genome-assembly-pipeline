@@ -1,5 +1,5 @@
 # Team2-GenomeAssembly
-Gyuhyon Cha, Hanchen Wang, Kristine Lacek, Rhiya Sharma, Shivam Sharma, Shuting Lin
+Hanchen Wang, Kristine Lacek, Rhiya Sharma, Shivam Sharma, Shuting Lin
 
 ## Pre-running installations
 
