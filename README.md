@@ -1,7 +1,9 @@
 # Team2-GenomeAssembly
-Hanchen Wang, Kristine Lacek, Rhiya Sharma, Shivam Sharma, Shuting Lin
+Kristine Lacek, Shivam Sharma, Shuting Lin, Rhiya Sharma, Hanchen Wang,
 
 ## Pre-running installations
+
+**Conda is the recommended way of installing tools.**
 
 **The java runtime environment** is needed to install FastQC. this was done by the command 
 wget https://github.com/AdoptOpenJDK/openjdk8-binaries/releases/download/jdk8u232-b09/OpenJDK8U-jdk_x64_linux_hotspot_8u232b09.tar.gz
@@ -14,75 +16,31 @@ chmod a+x ./fastp
 
 
 ## Requisite software
-**Prinseq v.0.20.4** -- [PRINSEQ](www.prinseq.sourceforge.net)
+**ABySS version 1.5.2** 
 
-**ABySS v.1.5.2** -- [BC Cancer Agency](www.bcgsc.ca/platform/bioinfo/software/abyss)
+**SPAdes version 3.5.0** 
 
-**Fastqc v.0.11.2** -- [Babraham Bioinformatics](www.bioinformatics.babraham.ac.uk/projects/fastqc/)
+**Unicycler version 0.4.8**
 
-**CISA v.1.3** -- [Contig Integrator for Sequence Assembly](sb.nhri.org.tw/CISA/en/CISA)
+**MaSuRCA version 3.3.5**
 
-**Edena v.3.131028** -- [Genomic Research Laboratory - University of Geneva Hospitals](www.genomic.ch/edena.php)
+**SKESA version 2.3.0**
 
-**SPAdes v.3.5.0** -- [St. Petersburg Academic Univerity of the Russian Academy of Sciences](bioinf.spbau.ru/spades)
+**Velvet version 1.2.10**
 
-**Unicycler v0.4.8** -- 
+**QUAST version 2.3** 
 
-**QUAST v.2.3** -- [St. Petersburg Academic Univerity of the Russian Academy of Sciences](bioinf.spbau.ru/quast)
 
-**SMALT v.0.7.5** -- [Wellcome Trust Sanger Institute](https://www.sanger.ac.uk/resources/software/smalt)
+## Scripts Usage:
 
-## Scripts
-### module_wranglePairedEnds.py
-_Returns a dictionary of 'key : value' pairs._
 
-### Below are templates...... still revamping
-**Usage:** module_wranglePairedEnds.py \</path/to/input files/\>
+**Step 1**  Pre-assembly trimming needs to be carried out using Fastp, which can be done using the QC_trim.py and supplying the input data through arguments.
 
-### module_ABySS.py
-_Generates hash of trimmed reads and invokes either SE or PE ABySS de novo assembly._
-_Outputs contig file(s) in FASTA format in user-specified directory._
-
-**Usage:** module_ABySS.py \</path/to/inputfiles/\> \</path/to/output directory/\>
-
-### module_Edena.py 
-_Generates hash of trimmed reads and invokes either SE or PE Edena de novo assembly._
-_Output is a directory containing the contig and scaffold files in FASTA format._
-
-**Usage:** module_Edena.py \</path/to/inputfiles/\> \</path/to/output directory/\>
-
-### module_SPAdes.py
-_Generates hash of trimmed reads and invokes either SE or PE SPAdes de novo assembly._
-_Output is a directory containing the contig and scaffold files in FASTA format._
-
-**Usage:** module_SPAdes.py \</path/to/inputfiles/\> \</path/to/output directory/\>
-
-### module_Unicycler.py
-_Generates hash of trimmed reads and invokes either SE or PE SPAdes de novo assembly._
-_Output is a directory containing the contig and scaffold files in FASTA format._
-
-**Usage:** module_Unicycler.py \</path/to/inputfiles/\> \</path/to/output directory/\>
-
-### module_Prinseq.py
-_User-friendly script to run prinseq with specified parameters._
-_variable outPath (the output directory) is currently hard coded._
-
-**Usage for unpaired read:** module_Prinseq.py -s \</path/to/read\> -l \<left-trim no.\> -r \<right-trim no.\>
-
-**Usage for paired-end read:** module_Prinseq.py -p \</path/to/read1\> \</path/to/read2\> -l \<left-trim no.\> -r \<right-trim no.\>
-
-### module_fastQC.py
-_Invokes fastqc on raw read file(s)_
-
-**Usage:** module_fastQC.py \</path/to/input files/\> \</path/to/output directory/\>
-
-### module_Quast.py
-_Locates contig/scaffold FASTA files and invokes Quast to generate assembly metrics._
-_Quast metrics files are generated in the respective assembly directories._
-
-**Usage:** See script for usage example
-
-### module_QuastOut.py
-Calculates scores for lists of quast evaluation results and outputs into tabular format.
-
-**Usage:** See script for usage example
+**Step 2**
+  Since the fastq files might be coming from different instruments producing reads of different lengths, we've created create_manifest_file.py which prepares prerequiste information required for scripts downstream.
+  
+**Step 3**
+  Rest of functionalities will be automated through the backbone.py script (our cool name for a manager or pipeline script). The backbone.py script encapsulates different wrapper python script that are invoked internally to produce a genome assembly file.
+ 
+**Step 4**
+  The final step is running quast on the assemblies and observing which assembler is working the best. The quast functionality is integrted into our pipeline as well and should execute automatically when the backbone.py script is finished running.
